@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-/**
-* @Route("/account/create",name="account.createAccount")
-*/
+    /**
+    * @Route("/account/create",name="account.createAccount")
+    */
     public function createAccount(){
         return $this->render('createaccount.html.twig');
     }

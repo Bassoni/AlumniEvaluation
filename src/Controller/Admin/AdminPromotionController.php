@@ -73,4 +73,13 @@ class AdminPromotionController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/promotion/{id}/show", name="admin.promotion.show")
+     */
+    public function show(Promotion $promotion){
+
+        return $this->render('admin/promotion/index.html.twig',['promotion'=>$promotion]);
+
+    }
+
 }

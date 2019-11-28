@@ -1,0 +1,108 @@
+{% extends 'admin/base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+ {% endblock %}
+
+{% block body %}
+
+
+    <header>
+        <div>
+            <img src="{{ asset('img/logoLeGreta.png') }}">
+        </div>
+        <div id="menu">
+            <nav>
+                <ul>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.logout') }}">Déconnection</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.login') }}">Connection</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a id="signinaccount" href="{{ path('home.index') }}">Retours sur le site</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <h3>Vous avez la possibilité de Visualiser les infos concernant la formation suivante</h3>
+            </div>
+
+
+
+
+            <div  style="border: 2px solid red;margin: 4px;width: 800px; height: 80%;">
+
+
+                <div class="tab-content" id="pills-tabContent">
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Promotion</th>
+                                <th scope="col">Début</th>
+                                <th scope="col">Fin</th>
+                                <th scope="col">Informations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="promotion-{{ promotion.degree.id }}-{{ promotion.year.id }}">
+                                    <td>{{ promotion.degree.name }} {{ promotion.year.title }}</td>
+                                    <td>{{ promotion.startDate}}</td>
+                                    <td>{{ promotion.endDate}}</td>
+                                    <td>{{ promotion.notes}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+            </div>
+
+
+        {% else %}
+            <h3>Si vous n'êtes pas admin vous n'avez rien a faire ici ! ! !</h3>
+
+        {% endif %}
+
+
+    </main>
+
+    <footer>
+        <div id="img_footer">
+            <img src="{{ asset('img/logo-greta.png') }}">
+        </div>
+        <div id="menu_footer">
+            <ul>
+                <li>
+                    <a id="signinaccount" href="signin.html">SE CONNECTER</a>
+                </li>
+                <li>
+                    <a id="createdAccount" href="signup.html.">CREER UN COMPTE</a>
+                </li>
+                <li>
+                    <a id="legalmentioned" href="legalmentioned.html.">MENTIONS LEGALES</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/script1.js') }}" ></script>
+
+{% endblock %}

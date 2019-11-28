@@ -37,6 +37,9 @@ class PromotionFixtures extends BaseFixture implements DependentFixtureInterface
                 $promo = new Promotion();
                 $promo->setDegree($degree);
                 $promo->setYear($year);
+                $promo->setStartDate('1 janvier ');
+                $promo->setEndDate('24 decembre ');
+                $promo->setNotes('cette formation serait geniale ');
 
                 $this->addReference('Promotion_'.$i,$promo);
 

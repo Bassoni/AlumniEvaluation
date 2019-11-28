@@ -12,6 +12,15 @@
          <li>
              {{ form_row(form.year , {'label': "L'année à modifier"}) }}
          </li>
+         <li>
+             {{ form_row(form.startDate, {'label': "date de début à modifier"}) }}
+         </li>
+         <li>
+             {{ form_row(form.endDate, {'label': "Date de fin à modifier"}) }}
+         </li>
+         <li>
+             {{ form_row(form.notes, {'label': "Informations à modifier"}) }}
+         </li>
      </ul>
      <input type="submit" value="Enregistrer">
      {{ form_end(form) }}
