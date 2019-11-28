@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+ {% endblock %}
+
+
+ {% block body %}
+
+
+<header>
+    <div>
+        <img src="{{ asset('img/logoLeGreta.png') }}">
+    </div>
+    <div id="menu">
+        <nav>
+            <ul>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li>
+                        <a id="signinaccount" href="{{ path('security.logout') }}">Déconnection</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a id="signinaccount" href="{{ path('security.login') }}">Connection</a>
+                    </li>
+
+                    <li>
+                        <a id="createdAccount" href="{{ path('user.register') }}">S'enregistrer</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+</header>
+
+<main>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div>
+            <p> vous etes connecté en tant que :</p>
+
+            <table id="whoIsConnected">
+                <tr class="liste">
+                    <td class="results">{{ app.user.lastname }}</a></td>
+                    <td class="results">{{ app.user.firstname }}</td>
+                    <td><a href="" class="results"><img src={{asset('upload/avatar/'~app.user.avatar) }} alt="avatar"></a></td>
+
+                </tr>
+            </table>
+        </div>
+
+    {% else %}
+        <div>
+            <h2>Vous n'avez pas encore de compte ?</h2>
+            <a id="signup1" href="signup.html">Créer un compte</a>
+        </div>
+    {% endif %}
+
+    <div>
+        <h3>Notre but : vous aider dans votre parcours</h3>
+    </div>
+    <div id="but">
+            <ul>
+                <li>Rechercher des anciens élèves qui pourront vous apporter des conseils dans votre parcours</li>
+                <li>Trouver des entreprises ayant déjà des pris des stagiaires dans votre domaine de formation</li>
+                <li>Se faire de nouveaux contacts professionnels</li>
+            </ul>
+    </div>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <form action="{{ path ('home.index') }}" method="post">
+            <div>
+                <label for="searchFormation">Formations</label>
+                <select type="search" name="searchFormation" id="searchFormation" placeholder="Recherche">
+                    <option value="">Toutes les formations</option>
+                    {% for degreeRepo in degrees %}
+                        <option value="{{ degreeRepo.id }}">{{ degreeRepo.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="searchAnnee">Années</label>
+                <select type="search" name="searchAnnee" id="searchAnnee" placeholder="Recherche">
+                    <option value="">Toutes les années</option>
+                    {% for yearRepo in years %}
+                        <option value="{{ yearRepo.id }}">{{ yearRepo.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" id="submit" value="ENVOYER"/>
+        </form>
+
+        <section>
+
+            <fieldset id="field">
+                <legend>Résultats de la recherche</legend>
+
+                    {% if theYear is not empty and theDegree is not empty %}
+                        <ul>
+                            <li>
+                                <p>{{theDegree.name}}</p>
+                            </li>
+                            <li>
+                                <p>{{theYear.title}}</p>
+                            </li>
+                        </ul>
+
+                        <table id="resultat">
+                            <tr id="nomColonne" style="display: none">
+                                <td id="searchNom">Nom</td>
+                                <td id="searchPrenom">Prénom</td>
+                                <td id="searchFormation">Formation suivie</td>
+                                <td id="searchAvatar">Avatar</td>
+                            </tr>
+
+                            {% if resultat is not empty %}
+
+                                {% for res in resultat %}
+                                    <tr class="liste">
+                                        <td><a href="{{ path('alumni.index',{"id":res.id,"slug":res.slug}) }}" class="results"> {{ res.lastname }}</a></td>
+                                        <td><a href="{{ path('alumni.index',{"id":res.id,"slug":res.slug}) }}" class="results"> {{ res.firstname }}</a></td>
+                                        <td><a href="{{ path('alumni.index',{"id":res.id,"slug":res.slug}) }}" class="results">
+                                            {%  for promo in res.promotions %}
+                                                <span>{{ promo.degree.name }}</span>
+                                            {% endfor %}
+                                            </a></td>
+                                        <td><a href="{{ path('alumni.index',{"id":res.id,"slug":res.slug}) }}" class="results"><img src={{asset('upload/avatar/'~res.avatar) }} alt="avatar"></a></td>
+
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+
+                        </table>
+                    {% else %}
+
+                        <p style="color: #cc0000;">Vous devez Selectionner une Formation <br>et une Année</p>
+
+                    {% endif %}
+
+            </fieldset>
+
+        </section>
+
+    {% else %}
+        <h2>Si vous n'êtes pas un ancien étudiant, vous ne pouvez proceder à la recherche !</h2>
+
+    {% endif %}
+
+</main>
+
+<footer>
+    <div id="img_footer">
+        <img src="{{ asset('img/logo-greta.png') }}">
+    </div>
+    <div id="menu_footer">
+            <ul>
+                <li>
+                    <a id="signinaccount" href="signin.html">SE CONNECTER</a>
+                </li>
+                <li>
+                    <a id="createdAccount" href="signup.html.">CREER UN COMPTE</a>
+                </li>
+                <li>
+                    <a id="legalmentioned" href="legalmentioned.html.">MENTIONS LEGALES</a>
+                </li>
+            </ul>
+    </div>
+</footer>
+
+
+ {% endblock %}

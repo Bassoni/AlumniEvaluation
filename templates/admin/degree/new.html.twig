@@ -1,0 +1,9 @@
+{% extends 'admin/base.html.twig' %}
+
+ {% block body %}
+     <h2>Voici la page de création de nouvelle formation</h2>
+
+{#     inclusion du formulaire inclus comme ce qui suit #}
+     {% include 'admin/degree/_form.html.twig' with {'myLabel': "Nom de la formation " } %}
+
+ {% endblock %}

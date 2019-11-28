@@ -1,0 +1,32 @@
+html {
+    height: 100%;
+}
+
+/* BODY */
+
+body {
+    margin: 0; padding: 0;
+    min-width: 100px;
+    width: 100%;
+    color: #707070;
+    font-family: "Segoe UI";
+    font-weight: normal;
+}
+
+
+ul{
+    list-style-type: none;
+}
+
+
+
+
+fieldset{
+    display: inline-block;
+    text-align: center;
+}
+
+legend{
+    border: 2px solid black;
+}
+

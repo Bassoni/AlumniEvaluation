@@ -1,0 +1,9 @@
+{% extends 'user/base.html.twig' %}
+
+ {% block body %}
+     <h2>Voici la page d'enregistrement</h2>
+
+     {#     inclusion du formulaire inclus comme ce qui suit #}
+     {% include 'user/_form.html.twig' with {'myLabel': "enregistrez vous" } %}
+
+ {% endblock %}

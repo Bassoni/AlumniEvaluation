@@ -1,0 +1,20 @@
+{% extends 'admin/base.html.twig' %}
+
+ {% block body %}
+     <h2>Voici la page de modifiaction d'une promotion</h2>
+
+
+     {{ form_start(form) }}
+     <ul>
+         <li>
+             {{ form_row(form.degree ,{'label': "Nom de la Formation à modifier"}) }}
+         </li>
+         <li>
+             {{ form_row(form.year , {'label': "L'année à modifier"}) }}
+         </li>
+     </ul>
+     <input type="submit" value="Enregistrer">
+     {{ form_end(form) }}
+
+ {% endblock %}
+

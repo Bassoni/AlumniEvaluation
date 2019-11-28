@@ -1,0 +1,255 @@
+{% extends 'admin/base.html.twig' %}
+
+ {% block stylesheets %}
+    {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+ {% endblock %}
+
+{% block body %}
+
+
+    <header>
+        <div>
+            <img src="{{ asset('img/logoLeGreta.png') }}">
+        </div>
+        <div id="menu">
+            <nav>
+                <ul>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.logout') }}">Déconnection</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.login') }}">Connection</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a id="signinaccount" href="{{ path('home.index') }}">Retours sur le site</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <div>
+                <h3>Si vous êtes admin vous avez donc la possibilité de creer differents elements</h3>
+            </div>
+            <div id="but">
+                    <ul>
+                        <li>des Formations</li>
+                        <li>des Année</li>
+                        <li>des Promotions</li>
+                    </ul>
+            </div>
+
+            <div class="container" id="blockDeModif" style="border: 2px solid red;margin: 4px;max-width:800px;min-width: 120px; height: 300px;display: flex;flex-direction: column;">
+                <ul style="display: flex;flex-wrap: wrap;">
+                    <li><button id="bt_Formations" style="border: 2px solid black;margin: 4px;width: 100px; height: 50px;"></button></li>
+                    <li><button id="bt_Annees" style="border: 2px solid red;margin: 4px;width: 100px; height: 50px;"></button></li>
+                    <li><button id="bt_Promotions" style="border: 2px solid green;margin: 4px;width: 100px; height: 50px;"></button></li>
+                </ul>
+                <ul style="display: flex;flex-wrap: wrap;width: 100%;height: 100%;">
+                    <li id="blockFormations" style="border: 2px solid black;margin: 4px;width: 100%; height: 100%;">
+                        <div >
+
+                        </div>
+                    </li>
+                    <li id="blockAnnees" style="border: 2px solid red;margin: 4px;width: 100%; height: 100%;display: none;">
+                        <div>
+
+                        </div>
+                    </li>
+                    <li id="blockPromotions" style="border: 2px solid green;margin: 4px;width: 100%; height: 100%;display: none;">
+                        <div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div  style="border: 2px solid red;margin: 4px;width: 800px; height: 80%;">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-formation-tab" data-toggle="pill" href="#pills-formation" role="tab" aria-controls="pills-formation" aria-selected="true">Formation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-annee-tab" data-toggle="pill" href="#pills-annee" role="tab" aria-controls="pills-annee" aria-selected="false">Année</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-promotion-tab" data-toggle="pill" href="#pills-promotion" role="tab" aria-controls="pills-promotion" aria-selected="false">Promotion</a>
+                    </li>
+                </ul>
+
+
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab" style="color: red">
+                        <a href="{{path('admin.degree.new')}}" type="button" class="btn btn-primary mb-3 mt-3">
+                            <i class="far fa-plus-square"></i> Nouveau
+                        </a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Nom de la formation</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for degree in degrees %}
+                                <tr id="degree-{{ degree.id }}">
+                                    <td>{{ degree.name }}</td>
+                                    <td><a href="{{ path('admin.degree.edit',{"id":degree.id}) }}"><i class="fas fa-pen"></i></a></td>
+                                    <td><a class="delete-button" href="{{ path('admin.degree.delete',{"id":degree.id}) }}"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-annee" role="tabpanel" aria-labelledby="pills-annee-tab">
+                        <a href="{{path('admin.year.new')}}" type="button" class="btn btn-primary mb-3 mt-3">
+                            <i class="far fa-plus-square"></i> Nouveau
+                        </a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Année</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for year in years %}
+                                <tr id="year-{{ year.id }}">
+                                    <td>{{ year.title }}</td>
+                                    <td><a href="{{ path('admin.year.edit',{"id":year.id}) }}"><i class="fas fa-pen"></i></a></td>
+                                    <td><a href="{{ path('admin.year.delete',{"id":year.id}) }}"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="pills-promotion" role="tabpanel" aria-labelledby="pills-promotion-tab">
+                        <a href="{{path('admin.promotion.new')}}" type="button" class="btn btn-primary mb-3 mt-3">
+                            <i class="far fa-plus-square"></i> Nouveau
+                        </a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Promotion</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for promotion in promotions %}
+                                <tr id="promotion-{{ promotion.degree.id }}-{{ promotion.year.id }}">
+                                    <td>{{ promotion.degree.name }} {{ promotion.year.title }}</td>
+                                    <td><a href="{{ path('admin.promotion.edit',{"id":promotion.id}) }}"><i class="fas fa-edit"></i></a></td>
+                                    <td><a class="delete-button" href="{{ path('admin.promotion.delete',{"id":promotion.id}) }}"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <section>
+
+                <fieldset id="field">
+                    <legend>onglet de modification</legend>
+
+                    <ul>
+                        {% for degree in degrees %}
+                            <li> {{ degree.name }} </li>
+                        {% endfor %}
+
+                        {% for year in years %}
+                            <li> {{ year.title }} </li>
+                        {% endfor %}
+
+                        {% for promotion in promotions %}
+                            <li> {{ promotion.degree.name }} {{ promotion.year.title }} </li>
+                        {% endfor %}
+                    </ul>
+
+                </fieldset>
+
+            </section>
+
+        {% else %}
+            <h3>Si vous n'êtes pas admin vous n'avez rien a faire ici ! ! !</h3>
+
+        {% endif %}
+
+        <div>
+                <label for="searchFormation">Formations</label>
+                <select type="search" name="searchFormation" id="searchFormation" placeholder="Recherche">
+                    <option value="">Toutes les formations</option>
+                    {% for degreeRepo in degrees %}
+                        <option value="{{ degreeRepo.id }}">{{ degreeRepo.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="searchAnnee">Années</label>
+                <select type="search" name="searchAnnee" id="searchAnnee" placeholder="Recherche">
+                    <option value="">Toutes les années</option>
+                    {% for yearRepo in years %}
+                        <option value="{{ yearRepo.id }}">{{ yearRepo.title }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+
+
+
+
+    </main>
+
+    <footer>
+        <div id="img_footer">
+            <img src="{{ asset('img/logo-greta.png') }}">
+        </div>
+        <div id="menu_footer">
+            <ul>
+                <li>
+                    <a id="signinaccount" href="signin.html">SE CONNECTER</a>
+                </li>
+                <li>
+                    <a id="createdAccount" href="signup.html.">CREER UN COMPTE</a>
+                </li>
+                <li>
+                    <a id="legalmentioned" href="legalmentioned.html.">MENTIONS LEGALES</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/script1.js') }}" ></script>
+
+{% endblock %}

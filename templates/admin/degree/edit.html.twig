@@ -1,0 +1,15 @@
+{% extends 'admin/base.html.twig' %}
+
+ {% block body %}
+     <h2>Voici la page de modifiaction d'une formation</h2>
+
+     {{ form_start(form) }}
+     {#     <formulaire #}
+     {{ form_row(form.name ,{'label': "Nom de la formation à modifier"}) }}
+     {#    <label></label>
+           <input></input>
+      #}
+     <input type="submit" value="enregistrer">
+     {{ form_end(form) }}
+     {#     formulaire > #}
+ {% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'user/base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+ {% endblock %}
+
+{% block body %}
+
+    <header>
+        <div>
+            <img src="{{ asset('img/logoLeGreta.png') }}">
+        </div>
+        <div id="menu">
+            <nav>
+                <ul>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.logout') }}">Déconnection</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a id="signinaccount" href="{{ path('security.login') }}">Connection</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a id="signinaccount" href="{{ path('home.index') }}">Retours sur le site</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+
+
+    </main>
+
+    <footer>
+        <div id="img_footer">
+            <img src="{{ asset('img/logo-greta.png') }}">
+        </div>
+        <div id="menu_footer">
+            <ul>
+                <li>
+                    <a id="signinaccount" href="signin.html">SE CONNECTER</a>
+                </li>
+                <li>
+                    <a id="createdAccount" href="signup.html.">CREER UN COMPTE</a>
+                </li>
+                <li>
+                    <a id="legalmentioned" href="legalmentioned.html.">MENTIONS LEGALES</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/script1.js') }}" ></script>
+
+{% endblock %}
